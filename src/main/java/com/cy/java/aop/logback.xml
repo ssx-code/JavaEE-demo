@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<logger name="com.cy" level="TRACE" />
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		    <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
+			<fileNamePattern>logs/context-log.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--只保留最近30天的日志-->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>[%-5level] %date --%thread-- [%logger] %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC_FILE"
+		class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>256</queueSize>
+		<appender-ref ref="FILE" />
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>
